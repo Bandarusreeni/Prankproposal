@@ -2,212 +2,191 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Something for You 😄</title>
+<title>System Checking...</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
 body {
-    height: 100vh;
-    overflow: hidden;
-    background: linear-gradient(270deg, #ff6ec4, #7873f5, #42e695);
-    background-size: 600% 600%;
-    animation: gradientBG 10s ease infinite;
+    margin:0;
+    overflow:hidden;
+    font-family:sans-serif;
+    background:black;
+    color:#00ffcc;
+    text-align:center;
 }
 
-@keyframes gradientBG {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-}
-
-.container {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.card {
-    backdrop-filter: blur(15px);
-    background: rgba(255,255,255,0.1);
-    border-radius: 25px;
-    padding: 40px;
-    text-align: center;
-    box-shadow: 0 0 40px rgba(0,0,0,0.3);
-    width: 90%;
-    max-width: 500px;
-}
-
-h1 {
-    color: white;
-    font-size: 36px;
-    margin-bottom: 20px;
-    text-shadow: 0 0 20px #fff;
-}
-
-p {
-    color: #fff;
-    margin-bottom: 30px;
-    font-size: 18px;
+/* Center */
+.center {
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
 }
 
 /* Buttons */
 button {
-    padding: 12px 25px;
-    border-radius: 30px;
-    border: none;
-    font-size: 18px;
-    margin: 10px;
-    cursor: pointer;
-    transition: 0.3s;
+    position:absolute;
+    padding:12px 25px;
+    border:none;
+    border-radius:25px;
+    font-size:18px;
+    cursor:pointer;
 }
 
-#yesBtn {
-    background: #00ffcc;
-    color: black;
-    box-shadow: 0 0 15px #00ffcc;
+#yesBtn { background:#00ffcc; color:black; }
+#noBtn { background:red; color:white; }
+
+/* Glitch */
+.glitch {
+    animation: glitch 0.2s infinite;
 }
 
-#yesBtn:hover {
-    transform: scale(1.1);
+@keyframes glitch {
+    0% {transform:translate(2px,2px);}
+    50% {transform:translate(-2px,-2px);}
+    100% {transform:translate(2px,-2px);}
 }
 
-#noBtn {
-    position: absolute;
-    background: #ff4d6d;
-    color: white;
+/* Crazy ending */
+.crazy-bg {
+    background: linear-gradient(45deg, pink, yellow, cyan, violet);
+    animation: bgMove 2s infinite alternate;
 }
 
-/* Floating hearts */
-.heart {
-    position: absolute;
-    color: white;
-    font-size: 18px;
-    animation: float 6s linear infinite;
+@keyframes bgMove {
+    from {background-position:0%;}
+    to {background-position:100%;}
 }
 
-@keyframes float {
+/* floating items */
+.float {
+    position:absolute;
+    font-size:32px;
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
     from {transform: translateY(100vh);}
     to {transform: translateY(-10vh);}
-}
-
-/* Balloons */
-.balloon {
-    position: absolute;
-    width: 40px;
-    height: 55px;
-    border-radius: 50%;
-    animation: rise 7s linear infinite;
-}
-
-@keyframes rise {
-    from {transform: translateY(100vh);}
-    to {transform: translateY(-20vh);}
-}
-
-/* Confetti */
-.confetti {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background: white;
-    animation: fall 3s linear infinite;
-}
-
-@keyframes fall {
-    from {transform: translateY(-10vh);}
-    to {transform: translateY(100vh);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <div class="card">
-        <h1>Hey You 😏</h1>
-        <p>I have something important to ask...</p>
-
-        <button id="yesBtn">Yes 😍</button>
-        <button id="noBtn">No 🙈</button>
-    </div>
+<div id="screen" class="center">
+    <h1>Initializing system... 🔍</h1>
 </div>
 
-<audio id="music" autoplay loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
+<audio id="bgMusic" autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
 </audio>
 
 <script>
 
-/* NO BUTTON TEASING */
-const noBtn = document.getElementById("noBtn");
+let step = 0;
 
-document.addEventListener("mousemove", (e) => {
-    const rect = noBtn.getBoundingClientRect();
+/* Fake AI sequence */
+const messages = [
+"Scanning emotions... ❤️",
+"Analyzing compatibility... 🤖",
+"Checking honesty level... 😏",
+"Accessing camera... 📷",
+"WARNING: Feelings detected 💘",
+"Final question loading..."
+];
 
-    const dist = Math.hypot(
-        e.clientX - (rect.left + rect.width/2),
-        e.clientY - (rect.top + rect.height/2)
-    );
-
-    if(dist < 120){
-        noBtn.style.left = Math.random()*window.innerWidth + "px";
-        noBtn.style.top = Math.random()*window.innerHeight + "px";
+function nextMessage(){
+    if(step < messages.length){
+        document.getElementById("screen").innerHTML = `<h1>${messages[step]}</h1>`;
+        step++;
+        setTimeout(nextMessage, 1200);
+    } else {
+        showGame();
     }
-});
+}
 
-/* YES CLICK */
-document.getElementById("yesBtn").onclick = () => {
+setTimeout(nextMessage,1000);
 
-    document.getElementById("music").pause();
+/* Show prank game */
+function showGame(){
 
-    // Confetti burst
-    for(let i=0;i<100;i++){
-        let c = document.createElement("div");
-        c.className="confetti";
-        c.style.left=Math.random()*window.innerWidth+"px";
-        c.style.background=["red","yellow","blue","white"][Math.floor(Math.random()*4)];
-        document.body.appendChild(c);
-        setTimeout(()=>c.remove(),3000);
+    document.body.style.color="white";
+
+    document.getElementById("screen").innerHTML = `
+        <h1>Catch YES if you can 😈</h1>
+        <p id="counter">Attempts: 0</p>
+        <button id="yesBtn">YES 😍</button>
+        <button id="noBtn">NO 🙈</button>
+    `;
+
+    let attempts = 0;
+
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const counter = document.getElementById("counter");
+
+    function move(btn){
+        let x = Math.random()*(window.innerWidth-100);
+        let y = Math.random()*(window.innerHeight-100);
+        btn.style.left = x+"px";
+        btn.style.top = y+"px";
     }
 
-    setTimeout(()=>{
+    /* YES game */
+    yesBtn.onmouseover = ()=>{
+        move(yesBtn);
+        attempts++;
+        counter.innerText = "Attempts: " + attempts;
+    };
+
+    /* NO teasing */
+    noBtn.onmouseover = ()=>{
+        let x = noBtn.offsetLeft + (Math.random()*80 - 40);
+        let y = noBtn.offsetTop + (Math.random()*80 - 40);
+
+        x = Math.max(0, Math.min(window.innerWidth-100, x));
+        y = Math.max(0, Math.min(window.innerHeight-50, y));
+
+        noBtn.style.left = x+"px";
+        noBtn.style.top = y+"px";
+    };
+
+    /* Random glitch scare */
+    setInterval(()=>{
+        document.body.classList.add("glitch");
+        setTimeout(()=>document.body.classList.remove("glitch"),200);
+    },2500);
+
+    /* YES click (final trap) */
+    yesBtn.onclick = ()=>{
+
+        document.getElementById("bgMusic").pause();
+
+        document.body.className="crazy-bg";
+
         document.body.innerHTML = `
-        <div style="height:100vh;display:flex;justify-content:center;align-items:center;background:black;color:white;flex-direction:column;">
-            <h1 style="font-size:60px;">😂 APRIL FOOL 😂</h1>
-            <p style="font-size:22px;">You really clicked YES 🤣</p>
+            <h1 style="font-size:70px;margin-top:20vh;">😂 APRIL FOOL 😂</h1>
+            <p style="font-size:24px;">You clicked YES after ${attempts} attempts 🤣</p>
+
             <audio autoplay>
                 <source src="https://www.soundjay.com/human/laughter-01.mp3">
             </audio>
-        </div>`;
-    },1500);
-};
+        `;
 
-/* Hearts */
-setInterval(()=>{
-    let h=document.createElement("div");
-    h.className="heart";
-    h.innerHTML="💖";
-    h.style.left=Math.random()*window.innerWidth+"px";
-    document.body.appendChild(h);
-    setTimeout(()=>h.remove(),6000);
-},400);
+        /* chaos mode */
+        const items = ["🌸","🌺","🌼","🎈","🐶","🐼","🐵","🐱","😂","💥"];
 
-/* Balloons */
-setInterval(()=>{
-    let b=document.createElement("div");
-    b.className="balloon";
-    b.style.left=Math.random()*window.innerWidth+"px";
-    b.style.background=["#ff4d6d","#ffd93d","#6bcBef","#c77dff"][Math.floor(Math.random()*4)];
-    document.body.appendChild(b);
-    setTimeout(()=>b.remove(),7000);
-},800);
+        setInterval(()=>{
+            let el = document.createElement("div");
+            el.className="float";
+            el.innerHTML = items[Math.floor(Math.random()*items.length)];
+            el.style.left=Math.random()*window.innerWidth+"px";
+            document.body.appendChild(el);
+            setTimeout(()=>el.remove(),6000);
+        },150);
+    };
+}
 
 </script>
 
