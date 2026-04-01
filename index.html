@@ -2,153 +2,212 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Just for You ❤️</title>
+<title>Something for You 😄</title>
 
 <style>
-body {
+* {
     margin: 0;
-    font-family: 'Segoe UI', cursive;
-    overflow: hidden;
-    text-align: center;
-    color: white;
-
-    /* Romantic background (online image) */
-    background: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7') no-repeat center center/cover;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-.overlay {
-    background: rgba(0,0,0,0.5);
+body {
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(270deg, #ff6ec4, #7873f5, #42e695);
+    background-size: 600% 600%;
+    animation: gradientBG 10s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+.container {
     height: 100vh;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-h1 {
-    font-size: 48px;
-    text-shadow: 2px 2px 15px black;
-}
-
-#message {
-    font-size: 22px;
-    width: 70%;
-    margin: 20px;
-}
-
-button {
-    padding: 15px 30px;
-    font-size: 18px;
+.card {
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.1);
     border-radius: 25px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 500px;
+}
+
+h1 {
+    color: white;
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 20px #fff;
+}
+
+p {
+    color: #fff;
+    margin-bottom: 30px;
+    font-size: 18px;
+}
+
+/* Buttons */
+button {
+    padding: 12px 25px;
+    border-radius: 30px;
     border: none;
-    cursor: pointer;
+    font-size: 18px;
     margin: 10px;
+    cursor: pointer;
+    transition: 0.3s;
 }
 
 #yesBtn {
-    background: #ff4d6d;
-    color: white;
+    background: #00ffcc;
+    color: black;
+    box-shadow: 0 0 15px #00ffcc;
+}
+
+#yesBtn:hover {
+    transform: scale(1.1);
 }
 
 #noBtn {
     position: absolute;
-    background: gray;
+    background: #ff4d6d;
     color: white;
 }
 
-/* hearts */
+/* Floating hearts */
 .heart {
     position: absolute;
-    font-size: 20px;
-    animation: float 5s linear infinite;
+    color: white;
+    font-size: 18px;
+    animation: float 6s linear infinite;
 }
 
 @keyframes float {
-    from { transform: translateY(100vh); }
-    to { transform: translateY(-10vh); }
+    from {transform: translateY(100vh);}
+    to {transform: translateY(-10vh);}
+}
+
+/* Balloons */
+.balloon {
+    position: absolute;
+    width: 40px;
+    height: 55px;
+    border-radius: 50%;
+    animation: rise 7s linear infinite;
+}
+
+@keyframes rise {
+    from {transform: translateY(100vh);}
+    to {transform: translateY(-20vh);}
+}
+
+/* Confetti */
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: white;
+    animation: fall 3s linear infinite;
+}
+
+@keyframes fall {
+    from {transform: translateY(-10vh);}
+    to {transform: translateY(100vh);}
 }
 </style>
 </head>
 
 <body>
 
-<div class="overlay">
+<div class="container">
+    <div class="card">
+        <h1>Hey You 😏</h1>
+        <p>I have something important to ask...</p>
 
-    <h1>Sreeni ❤️ My Love</h1>
-
-    <div id="message"></div>
-
-    <div>
-        <button id="yesBtn">Yes 💖</button>
-        <button id="noBtn">No 😢</button>
+        <button id="yesBtn">Yes 😍</button>
+        <button id="noBtn">No 🙈</button>
     </div>
-
 </div>
 
-<!-- Romantic music -->
 <audio id="music" autoplay loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
 </audio>
 
 <script>
 
-/* Romantic Message */
-const text = "From the moment you came into my life… ❤️\n\nEverything changed.\n\nYou make my days brighter, my heart lighter, and my world complete.\n\nSo today, I just want to ask you…\n\nWill you be mine forever? 💍";
-
-let i = 0;
-function typeWriter() {
-    if (i < text.length) {
-        document.getElementById("message").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typeWriter, 40);
-    }
-}
-typeWriter();
-
-/* No button runs away */
+/* NO BUTTON TEASING */
 const noBtn = document.getElementById("noBtn");
 
 document.addEventListener("mousemove", (e) => {
     const rect = noBtn.getBoundingClientRect();
 
-    const distance = Math.hypot(
+    const dist = Math.hypot(
         e.clientX - (rect.left + rect.width/2),
         e.clientY - (rect.top + rect.height/2)
     );
 
-    if(distance < 120){
-        noBtn.style.left = Math.random() * window.innerWidth + "px";
-        noBtn.style.top = Math.random() * window.innerHeight + "px";
+    if(dist < 120){
+        noBtn.style.left = Math.random()*window.innerWidth + "px";
+        noBtn.style.top = Math.random()*window.innerHeight + "px";
     }
 });
 
-/* Yes click → twist */
+/* YES CLICK */
 document.getElementById("yesBtn").onclick = () => {
 
     document.getElementById("music").pause();
 
-    document.body.innerHTML = `
-        <div style="height:100vh;display:flex;justify-content:center;align-items:center;background:black;color:white;flex-direction:column;text-align:center;">
-            <h1 style="font-size:60px;">😂 APRIL FOOL 😂</h1>
-            <p style="font-size:22px;">But seriously… I like you a lot ❤️</p>
+    // Confetti burst
+    for(let i=0;i<100;i++){
+        let c = document.createElement("div");
+        c.className="confetti";
+        c.style.left=Math.random()*window.innerWidth+"px";
+        c.style.background=["red","yellow","blue","white"][Math.floor(Math.random()*4)];
+        document.body.appendChild(c);
+        setTimeout(()=>c.remove(),3000);
+    }
 
+    setTimeout(()=>{
+        document.body.innerHTML = `
+        <div style="height:100vh;display:flex;justify-content:center;align-items:center;background:black;color:white;flex-direction:column;">
+            <h1 style="font-size:60px;">😂 APRIL FOOL 😂</h1>
+            <p style="font-size:22px;">You really clicked YES 🤣</p>
             <audio autoplay>
                 <source src="https://www.soundjay.com/human/laughter-01.mp3">
             </audio>
-        </div>
-    `;
+        </div>`;
+    },1500);
 };
 
-/* floating hearts */
-setInterval(() => {
-    let heart = document.createElement("div");
-    heart.className = "heart";
-    heart.innerHTML = "❤️";
-    heart.style.left = Math.random() * window.innerWidth + "px";
-    document.body.appendChild(heart);
+/* Hearts */
+setInterval(()=>{
+    let h=document.createElement("div");
+    h.className="heart";
+    h.innerHTML="💖";
+    h.style.left=Math.random()*window.innerWidth+"px";
+    document.body.appendChild(h);
+    setTimeout(()=>h.remove(),6000);
+},400);
 
-    setTimeout(()=>heart.remove(),5000);
-}, 300);
+/* Balloons */
+setInterval(()=>{
+    let b=document.createElement("div");
+    b.className="balloon";
+    b.style.left=Math.random()*window.innerWidth+"px";
+    b.style.background=["#ff4d6d","#ffd93d","#6bcBef","#c77dff"][Math.floor(Math.random()*4)];
+    document.body.appendChild(b);
+    setTimeout(()=>b.remove(),7000);
+},800);
 
 </script>
 
