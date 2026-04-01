@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>System Checking...</title>
+<title>AI System Scan...</title>
 
 <style>
 body {
@@ -14,7 +14,7 @@ body {
     text-align:center;
 }
 
-/* Center */
+/* center */
 .center {
     height:100vh;
     display:flex;
@@ -23,7 +23,7 @@ body {
     flex-direction:column;
 }
 
-/* Buttons */
+/* buttons */
 button {
     position:absolute;
     padding:12px 25px;
@@ -33,41 +33,49 @@ button {
     cursor:pointer;
 }
 
-#yesBtn { background:#00ffcc; color:black; }
+#yesBtn { background:#00ffcc; }
 #noBtn { background:red; color:white; }
 
-/* Glitch */
+/* glitch */
 .glitch {
     animation: glitch 0.2s infinite;
 }
-
 @keyframes glitch {
-    0% {transform:translate(2px,2px);}
-    50% {transform:translate(-2px,-2px);}
-    100% {transform:translate(2px,-2px);}
+    0%{transform:translate(2px,2px);}
+    50%{transform:translate(-2px,-2px);}
+    100%{transform:translate(2px,-2px);}
 }
 
-/* Crazy ending */
+/* crazy ending */
 .crazy-bg {
     background: linear-gradient(45deg, pink, yellow, cyan, violet);
     animation: bgMove 2s infinite alternate;
 }
-
 @keyframes bgMove {
-    from {background-position:0%;}
-    to {background-position:100%;}
+    from{background-position:0%;}
+    to{background-position:100%;}
 }
 
-/* floating items */
+/* floating chaos */
 .float {
     position:absolute;
     font-size:32px;
     animation: floatUp 6s linear infinite;
 }
-
 @keyframes floatUp {
     from {transform: translateY(100vh);}
     to {transform: translateY(-10vh);}
+}
+
+/* flash */
+.flash {
+    position:fixed;
+    top:0;left:0;
+    width:100%;
+    height:100%;
+    background:white;
+    opacity:0;
+    pointer-events:none;
 }
 </style>
 </head>
@@ -75,116 +83,127 @@ button {
 <body>
 
 <div id="screen" class="center">
-    <h1>Initializing system... 🔍</h1>
+    <h1>Booting AI Engine... 🤖</h1>
 </div>
 
+<div id="flash" class="flash"></div>
+
 <audio id="bgMusic" autoplay loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3">
 </audio>
 
 <script>
 
 let step = 0;
 
-/* Fake AI sequence */
-const messages = [
+/* AI messages */
+const msgs = [
 "Scanning emotions... ❤️",
-"Analyzing compatibility... 🤖",
-"Checking honesty level... 😏",
-"Accessing camera... 📷",
-"WARNING: Feelings detected 💘",
-"Final question loading..."
+"Analyzing personality... 😏",
+"Checking secrets... 🤫",
+"Connecting to camera... 📷",
+"Capturing reaction in 3... 2... 1..."
 ];
 
-function nextMessage(){
-    if(step < messages.length){
-        document.getElementById("screen").innerHTML = `<h1>${messages[step]}</h1>`;
+function runAI(){
+    if(step < msgs.length){
+        screen.innerHTML = `<h1>${msgs[step]}</h1>`;
         step++;
-        setTimeout(nextMessage, 1200);
+        setTimeout(runAI,1200);
     } else {
-        showGame();
+        fakeCamera();
     }
 }
 
-setTimeout(nextMessage,1000);
+setTimeout(runAI,1000);
 
-/* Show prank game */
+/* fake camera flash */
+function fakeCamera(){
+    let flash = document.getElementById("flash");
+    flash.style.opacity="1";
+    setTimeout(()=>flash.style.opacity="0",200);
+
+    screen.innerHTML="<h1>📸 Photo Captured 😳</h1>";
+
+    setTimeout(fakeChat,1500);
+}
+
+/* fake whatsapp chat */
+function fakeChat(){
+    screen.innerHTML = `
+        <h2>Sending to Friends... 📤</h2>
+        <p>Friend: 😂😂😂</p>
+        <p>Friend: Bro she clicked YES 🤣</p>
+        <p>Friend: Legendary 🤣🔥</p>
+    `;
+
+    setTimeout(showGame,2000);
+}
+
+/* game */
 function showGame(){
-
     document.body.style.color="white";
 
-    document.getElementById("screen").innerHTML = `
-        <h1>Catch YES if you can 😈</h1>
-        <p id="counter">Attempts: 0</p>
+    screen.innerHTML = `
+        <h1>Catch YES 😈</h1>
+        <p id="count">Attempts: 0</p>
         <button id="yesBtn">YES 😍</button>
         <button id="noBtn">NO 🙈</button>
     `;
 
-    let attempts = 0;
+    let count=0;
 
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const counter = document.getElementById("counter");
+    const yesBtn=document.getElementById("yesBtn");
+    const noBtn=document.getElementById("noBtn");
+    const counter=document.getElementById("count");
 
     function move(btn){
-        let x = Math.random()*(window.innerWidth-100);
-        let y = Math.random()*(window.innerHeight-100);
-        btn.style.left = x+"px";
-        btn.style.top = y+"px";
+        btn.style.left=Math.random()*(window.innerWidth-100)+"px";
+        btn.style.top=Math.random()*(window.innerHeight-100)+"px";
     }
 
-    /* YES game */
-    yesBtn.onmouseover = ()=>{
+    yesBtn.onmouseover=()=>{
         move(yesBtn);
-        attempts++;
-        counter.innerText = "Attempts: " + attempts;
+        count++;
+        counter.innerText="Attempts: "+count;
     };
 
-    /* NO teasing */
-    noBtn.onmouseover = ()=>{
-        let x = noBtn.offsetLeft + (Math.random()*80 - 40);
-        let y = noBtn.offsetTop + (Math.random()*80 - 40);
-
-        x = Math.max(0, Math.min(window.innerWidth-100, x));
-        y = Math.max(0, Math.min(window.innerHeight-50, y));
-
-        noBtn.style.left = x+"px";
-        noBtn.style.top = y+"px";
+    noBtn.onmouseover=()=>{
+        let x=noBtn.offsetLeft+(Math.random()*80-40);
+        let y=noBtn.offsetTop+(Math.random()*80-40);
+        noBtn.style.left=Math.max(0,Math.min(window.innerWidth-100,x))+"px";
+        noBtn.style.top=Math.max(0,Math.min(window.innerHeight-50,y))+"px";
     };
 
-    /* Random glitch scare */
     setInterval(()=>{
         document.body.classList.add("glitch");
         setTimeout(()=>document.body.classList.remove("glitch"),200);
     },2500);
 
-    /* YES click (final trap) */
-    yesBtn.onclick = ()=>{
-
-        document.getElementById("bgMusic").pause();
+    yesBtn.onclick=()=>{
+        bgMusic.pause();
 
         document.body.className="crazy-bg";
 
-        document.body.innerHTML = `
-            <h1 style="font-size:70px;margin-top:20vh;">😂 APRIL FOOL 😂</h1>
-            <p style="font-size:24px;">You clicked YES after ${attempts} attempts 🤣</p>
+        document.body.innerHTML=`
+        <h1 style="font-size:70px;margin-top:20vh;">😂 APRIL FOOL 😂</h1>
+        <p style="font-size:24px;">You tried ${count} times 🤣</p>
 
-            <audio autoplay>
-                <source src="https://www.soundjay.com/human/laughter-01.mp3">
-            </audio>
+        <audio autoplay>
+        <source src="https://www.soundjay.com/human/laughter-01.mp3">
+        </audio>
         `;
 
-        /* chaos mode */
-        const items = ["🌸","🌺","🌼","🎈","🐶","🐼","🐵","🐱","😂","💥"];
+        const items=["🌸","🌺","🌼","🎈","🐶","🐼","🐵","🐱","😂","💥"];
 
         setInterval(()=>{
-            let el = document.createElement("div");
+            let el=document.createElement("div");
             el.className="float";
-            el.innerHTML = items[Math.floor(Math.random()*items.length)];
+            el.innerHTML=items[Math.floor(Math.random()*items.length)];
             el.style.left=Math.random()*window.innerWidth+"px";
             document.body.appendChild(el);
             setTimeout(()=>el.remove(),6000);
-        },150);
+        },120);
     };
 }
 
