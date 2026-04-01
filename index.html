@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Just for You ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', cursive;
+    overflow: hidden;
+    text-align: center;
+    color: white;
+
+    /* Romantic background (online image) */
+    background: url('https://images.unsplash.com/photo-1518199266791-5375a83190b7') no-repeat center center/cover;
+}
+
+.overlay {
+    background: rgba(0,0,0,0.5);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 48px;
+    text-shadow: 2px 2px 15px black;
+}
+
+#message {
+    font-size: 22px;
+    width: 70%;
+    margin: 20px;
+}
+
+button {
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    margin: 10px;
+}
+
+#yesBtn {
+    background: #ff4d6d;
+    color: white;
+}
+
+#noBtn {
+    position: absolute;
+    background: gray;
+    color: white;
+}
+
+/* hearts */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: float 5s linear infinite;
+}
+
+@keyframes float {
+    from { transform: translateY(100vh); }
+    to { transform: translateY(-10vh); }
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay">
+
+    <h1>Sreeni ❤️ My Love</h1>
+
+    <div id="message"></div>
+
+    <div>
+        <button id="yesBtn">Yes 💖</button>
+        <button id="noBtn">No 😢</button>
+    </div>
+
+</div>
+
+<!-- Romantic music -->
+<audio id="music" autoplay loop>
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
+
+<script>
+
+/* Romantic Message */
+const text = "From the moment you came into my life… ❤️\n\nEverything changed.\n\nYou make my days brighter, my heart lighter, and my world complete.\n\nSo today, I just want to ask you…\n\nWill you be mine forever? 💍";
+
+let i = 0;
+function typeWriter() {
+    if (i < text.length) {
+        document.getElementById("message").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 40);
+    }
+}
+typeWriter();
+
+/* No button runs away */
+const noBtn = document.getElementById("noBtn");
+
+document.addEventListener("mousemove", (e) => {
+    const rect = noBtn.getBoundingClientRect();
+
+    const distance = Math.hypot(
+        e.clientX - (rect.left + rect.width/2),
+        e.clientY - (rect.top + rect.height/2)
+    );
+
+    if(distance < 120){
+        noBtn.style.left = Math.random() * window.innerWidth + "px";
+        noBtn.style.top = Math.random() * window.innerHeight + "px";
+    }
+});
+
+/* Yes click → twist */
+document.getElementById("yesBtn").onclick = () => {
+
+    document.getElementById("music").pause();
+
+    document.body.innerHTML = `
+        <div style="height:100vh;display:flex;justify-content:center;align-items:center;background:black;color:white;flex-direction:column;text-align:center;">
+            <h1 style="font-size:60px;">😂 APRIL FOOL 😂</h1>
+            <p style="font-size:22px;">But seriously… I like you a lot ❤️</p>
+
+            <audio autoplay>
+                <source src="https://www.soundjay.com/human/laughter-01.mp3">
+            </audio>
+        </div>
+    `;
+};
+
+/* floating hearts */
+setInterval(() => {
+    let heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "❤️";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    document.body.appendChild(heart);
+
+    setTimeout(()=>heart.remove(),5000);
+}, 300);
+
+</script>
+
+</body>
+</html>
